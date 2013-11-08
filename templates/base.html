@@ -1,0 +1,93 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>SiliconValleyVoice в формате MP3</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://s.ytimg.com/yts/cssbin/www-home-c4-2x-vfl7xcObT.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    {% block extrahead %}{% endblock %}
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">
+            SiliconValleyVoice в формате MP3
+          </a>
+          <a class="navbar-brand" href="#">
+            <span id="header-help" class="glyphicon glyphicon-question-sign" data-content="Ускоренные на 20%"></span>
+          </a>
+        </div>
+        <div class="navbar-collapse collapse">
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <div id="gh-banner">
+          <style>
+            #c4-header-bg-container {
+              background-image: url(https://i1.ytimg.com/u/U4EZpLc84IZMFnpp1TyiKg/channels4_banner.jpg?v=516cab29);
+            }
+
+            @media screen and (-webkit-min-device-pixel-ratio: 1.5),
+            screen and (min-resolution: 1.5dppx) {
+              #c4-header-bg-container {
+                background-image: url(https://i1.ytimg.com/u/U4EZpLc84IZMFnpp1TyiKg/channels4_banner_hd.jpg?v=516cab29);
+              }
+            }
+          </style>
+          <div id="c4-header-bg-container" class=" has-custom-banner">
+            <a class="channel-header-profile-image-container spf-link" href="http://youtube.com/user/SiliconValleyVoice">
+              <img class="channel-header-profile-image" src="https://lh6.googleusercontent.com/-d6hy1ZrOotM/AAAAAAAAAAI/AAAAAAAAAAA/aGKhTWlsFzw/s100-c-k-no/photo.jpg" title="SiliconValleyVoice" alt="SiliconValleyVoice">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      {% block "contents" %}{% endblock %}
+
+      <hr>
+      <footer>
+        <p>Сайт &copy; <a href="http://blog.f-y.name">Anton Novosyolov</a> 2013</p>
+      </footer>
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    {% block extrajs %}{% endblock %}
+    <script>
+      $('#header-help').popover({trigger: 'hover'});
+    </script>
+  </body>
+</html>

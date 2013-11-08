@@ -1,0 +1,23 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+#gh-banner {
+    max-width: 1060px;
+}
+
+.podcast-info {
+    padding: 0px 10px 10px 330px;
+
+}
+
+
+.podcast-info *,
+.podcast-info *:before,
+.podcast-info *:after {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+}
