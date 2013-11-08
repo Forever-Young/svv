@@ -40,7 +40,9 @@
         </div>
       </div>
     </div>
-
+    <p></p>
+    <p><a role="button" class="btn btn-primary" href="{{ object.file.url }}">Скачать</a></p>
+    <p>Дата: {{ object.pub_date|date:'d-m-Y' }}</p>
     {{ object.description|urlize|linebreaks }}
   </div>
   <div class="clearfix"></div>
