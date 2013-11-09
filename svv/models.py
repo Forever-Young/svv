@@ -25,4 +25,4 @@ class PodcastIssue(models.Model):
         return self.youtube_url[self.youtube_url.rfind("=") + 1:]
 
     class Meta:
-        ordering = ('-pub_date',)
+        ordering = ('-pub_date', '-title')

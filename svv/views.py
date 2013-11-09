@@ -14,7 +14,7 @@ class PodcastFeed(Feed):
     item_enclosure_mime_type = "audio/mpeg"
 
     def items(self):
-        return PodcastIssue.objects.exclude(title__isnull=True).order_by('-pub_date')
+        return PodcastIssue.objects.exclude(title__isnull=True)
 
     def item_title(self, item):
         return item.title
