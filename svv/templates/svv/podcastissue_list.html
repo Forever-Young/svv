@@ -26,3 +26,22 @@
   {% endif %}
 
 {% endblock %}
+
+{% block extrajs %}
+  <script>
+    $(document).keydown(function (event) {
+      var keycode = event.keyCode ? event.keyCode : event.which;
+      if (event.ctrlKey) {
+        if (keycode === 39) {
+            var nextExists = $('.pagination li.next a').attr('href');
+            if (nextExists) window.location.href = nextExists;
+        }
+        if (keycode === 37) {
+            var previousExists = $('.pagination li.previous a').attr('href');
+            if (previousExists) window.location.href = previousExists;
+        }
+      }
+    });
+  </script>
+
+{% endblock %}
