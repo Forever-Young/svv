@@ -30,9 +30,11 @@ class Command(BaseCommand):
         ie_video = YoutubeIE(downloader=downloader)
         result = ie_user.extract(settings.YOUTUBE_URL)[0]
         urls = [x["url"] for x in result["entries"]]
-        for url in urls:
+        for i, url in enumerate(urls):
             if PodcastIssue.objects.filter(youtube_url=url).exists():
+                urls = urls[:i]
                 break
+        for url in reversed(urls):
             info = ie_video.extract(url)[0]
             tmp_dir = os.path.join(settings.TMP_DIR)
             tmp_video_fn = os.path.join(tmp_dir, 'video.{0}'.format(settings.YOUTUBE_EXT))
