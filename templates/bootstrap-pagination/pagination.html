@@ -7,7 +7,7 @@
      </li>
 {% endif %}
 {% if show_prev_next %}
-    <li {% if not page.has_previous %}class="disabled"{% endif %}>
+    <li {% if not page.has_previous %}class="disabled"{% else %}class="previous"{% endif %}>
         <a title="Предыдущая страница" href="{{ previous_page_url|default:"#" }}">{{ previous_label }}</a>
     </li>
 {% endif %}
@@ -23,7 +23,7 @@
     {% endif %}
 {% endfor %}
 {% if show_prev_next %}
-    <li {% if not page.has_next %}class="disabled"{% endif %}>
+    <li {% if not page.has_next %}class="disabled"{% else %}class="next"{% endif %}>
         <a title="Следующая страница" href="{{ next_page_url|default:"#" }}">{{ next_label }}</a>
     </li>
 {% endif %}
