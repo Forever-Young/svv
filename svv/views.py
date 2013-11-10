@@ -11,8 +11,9 @@ from .tasks import download_and_convert_task
 
 class PodcastFeed(Feed):
     title = "SiliconValleyVoice"
-    link = "https://www.youtube.com/user/SiliconValleyVoice/videos"
-    description = "SiliconValleyVoice MP3 files."
+    link = "/"
+    feed_url = "/feed/"
+    description = "SiliconValleyVoice в MP3"
     author_name = "Mikhail Portnov"
     item_enclosure_mime_type = "audio/mpeg"
 
