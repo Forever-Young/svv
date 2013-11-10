@@ -48,7 +48,12 @@ class Command(BaseCommand):
         for url in reversed(urls):
             issue = None
             if PodcastIssue.objects.filter(youtube_url=url).exists():
-                issue = PodcastIssue.objects.get(youtube_url=url)
+                try:
+                    issue = PodcastIssue.objects.get(youtube_url=url)
+                except PodcastIssue.MultipleObjectsReturned:
+                    # sanitize
+                    PodcastIssue.objects.filter(youtube_url=url).delete()
+                    issue = None
 
             if issue and issue.file:
                 continue
