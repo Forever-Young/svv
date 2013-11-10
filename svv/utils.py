@@ -44,3 +44,4 @@ def download_and_convert(issue, downloader=None, info=None):
 
     os.remove(tmp_video_fn)
     os.remove(result_fn)
+    return True

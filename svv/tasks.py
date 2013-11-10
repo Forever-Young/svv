@@ -9,4 +9,5 @@ def download_and_convert_task(issue_pk):
     if download_and_convert(issue):
         issue.skip_feed = True
         issue.save()
-    return
+        return True
+    return False
