@@ -73,15 +73,14 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
+LANGUAGE_CODE = 'ru-ru'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
+#TIME_ZONE = 'UTC'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -110,9 +109,7 @@ TEMPLATE_DIRS = (
 
 
 SPEEDUP = "+20"
-YOUTUBE_TYPE = "user"  # "playlist"
 YOUTUBE_URL = "https://www.youtube.com/user/SiliconValleyVoice/videos"
-#YOUTUBE_URL = "https://www.youtube.com/playlist?list=PL7XXjge0nKZc-aAZNpotpyfwzxylzOOgg"
 TMP_DIR = os.path.join(BASE_DIR, "tmp")
 YOUTUBE_FORMAT = "5"
 YOUTUBE_EXT = "flv"

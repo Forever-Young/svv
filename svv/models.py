@@ -9,7 +9,7 @@ class PodcastIssue(models.Model):
     description = models.TextField(null=True, blank=True)
     short_description = models.CharField(max_length=1000, null=True, blank=True)
     file = models.FileField(upload_to="mp3", null=True, blank=True)
-    pub_date = models.DateField(null=True, blank=True)
+    pub_date = models.DateTimeField(null=True, blank=True)
     youtube_url = models.URLField()
 
     def __str__(self):

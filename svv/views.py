@@ -1,5 +1,3 @@
-from datetime import datetime, time
-
 from django.contrib.syndication.views import Feed
 from django.views.generic import ListView, DetailView
 
@@ -29,7 +27,7 @@ class PodcastFeed(Feed):
         return item.file.size
 
     def item_pubdate(self, item):
-        return datetime.combine(item.pub_date, time())
+        return item.pub_date
 
 
 class PodcastListView(ListView):
