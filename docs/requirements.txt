@@ -7,4 +7,4 @@ git+https://github.com/celery/billiard.git@afbd928715164765902f559b69d58a731cdf6
 git+https://github.com/celery/celery.git@959d15ac3ddb805ec48701c5ea1640bc94a32b97
 kombu==3.0.4
 pytz==2013.8
-git+https://github.com/celery/django-celery.git@374496c36640fe853d5f8acefa952971d87315b8
+git+https://github.com/Forever-Young/django-celery.git@35f9b895ff7502260aee1d5e436202b86c0dc76f
