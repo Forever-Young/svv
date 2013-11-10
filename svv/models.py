@@ -11,6 +11,7 @@ class PodcastIssue(models.Model):
     file = models.FileField(upload_to="mp3", null=True, blank=True)
     pub_date = models.DateTimeField(null=True, blank=True)
     youtube_url = models.URLField()
+    skip_feed = models.BooleanField(default=False)
 
     def __str__(self):
         if self.title:

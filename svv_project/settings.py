@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'south',
     'bootstrap-pagination',
+    'djcelery',
 
     'svv',
 )
@@ -107,6 +108,11 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
 
+import djcelery
+djcelery.setup_loader()
+
+BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+CELERY_RESULT_BACKEND = 'amqp://guest:guest@localhost:5672//'
 
 SPEEDUP = "+20"
 YOUTUBE_URL = "https://www.youtube.com/user/SiliconValleyVoice/videos"

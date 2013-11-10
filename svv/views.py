@@ -1,5 +1,9 @@
+import json
+
 from django.contrib.syndication.views import Feed
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
+from django.http import HttpResponse
 
 from svv.models import PodcastIssue
 
@@ -12,7 +16,8 @@ class PodcastFeed(Feed):
     item_enclosure_mime_type = "audio/mpeg"
 
     def items(self):
-        return PodcastIssue.objects.exclude(title__isnull=True)
+        return PodcastIssue.objects.exclude(title__isnull=True).exclude(skip_feed=True)\
+            .exclude(file__exact="").exclude(file__isnull=True)
 
     def item_title(self, item):
         return item.title
@@ -37,3 +42,24 @@ class PodcastListView(ListView):
 
 class PodcastDetailView(DetailView):
     queryset = PodcastIssue.objects.exclude(title__isnull=True)
+
+
+def order_converting(request, pk):
+    object = get_object_or_404(PodcastIssue, pk=pk)
+    data = {"result": "ok"}
+    if not object.file:
+        from .tasks import download_and_convert_task
+        download_and_convert_task.delay(object.pk)
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+def check_converting_status(request, pk):
+    # FIXME: check for task result, so can return 'error' to browser if video can't be downloaded
+    object = get_object_or_404(PodcastIssue, pk=pk)
+    data = {}
+    if not object.file:
+        data["result"] = "not_ready"
+    else:
+        data["result"] = "ok"
+        data["url"] = object.file.url
+    return HttpResponse(json.dumps(data), content_type='application/json')

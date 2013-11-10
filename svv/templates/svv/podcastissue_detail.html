@@ -8,7 +8,10 @@
   </a>
 
   <div class="podcast-info">
-    {% if object.file %}
+    {% if not object.file %}
+      <div>MP3-файл не создан. <button id="convert-button" class="btn btn-primary">Запустить преобразование</button></div>
+    {% endif %}
+    <div {% if not object.file %}class="hidden"{% endif %} id="player_block">
       <div id="jquery_jplayer_1" class="jp-jplayer"></div>
 
       <div id="jp_container_1" class="jp-audio">
@@ -42,8 +45,8 @@
         </div>
       </div>
       <p></p>
-      <p><a role="button" class="btn btn-primary" href="{{ object.file.url }}">Скачать</a></p>
-    {% endif %}
+      <p><a id="download-button" role="button" class="btn btn-primary" href="">Скачать</a></p>
+    </div>
     <p>Дата: {{ object.pub_date|date:'d-m-Y' }}</p>
     {{ object.description|urlize|linebreaks }}
   </div>
@@ -53,22 +56,51 @@
 {% block extrajs %}
   <link rel="stylesheet" href="{% static 'css/skin/blue.monday/jplayer.blue.monday.css' %}" /></code>
   <script src="{% static 'js/jquery.jplayer.min.js' %}"></script>
-  {% if object.file %}
-    <script>
-      $(document).ready(function(){
-        $("#jquery_jplayer_1").jPlayer({
-          ready: function () {
-            $(this).jPlayer("setMedia", {
-              mp3:"{{ object.file.url }}"
-            }).jPlayer('play');
-          },
-          swfPath: "{% static 'js' %}",
-          supplied: "mp3",
-          wmode: "window",
-          smoothPlayBar: true,
-          keyEnabled: false
-        });
+  <script>
+    function show_player(url, autostart) {
+      $("#player_block").removeClass("hidden");
+      $("#jquery_jplayer_1").jPlayer({
+        ready: function () {
+          $(this).jPlayer("setMedia", {mp3: url});
+          if(autostart){
+            $(this).jPlayer('play');
+          }
+        },
+        swfPath: "{% static 'js' %}",
+        supplied: "mp3",
+        wmode: "window",
+        smoothPlayBar: true,
+        keyEnabled: false
       });
-    </script>
-  {% endif %}
+      $("#download-button").attr("href", url);
+    }
+
+    $(document).ready(function(){
+      {% if object.file %}show_player("{{ object.file.url }}", 1){% endif %};
+      {% if not object.file %}
+        $("#convert-button").click(function(){
+          $.ajax("{% url "order-converting" object.pk %}")
+              .done(function(data){
+{#                // TODO: check on errors #}
+{#                // TODO: rolling waiting symbol #}
+                $("#convert-button").text("Идет преобразование");
+                setInterval(function(){
+                  $.ajax("{% url "check-converting-status" object.pk %}")
+                      .done(function(data){
+                        if(data.result == "ok") {
+                          clearInterval();
+                          $("#convert-button").parent().remove();
+                          show_player(data.url, 0);
+                        }
+                        else if(data.result == "error") {
+                          clearInterval();
+                          // TODO: alert!
+                        }
+                      });
+                }, 2000);
+              });
+        });
+      {% endif %}
+    });
+  </script>
 {% endblock %}
