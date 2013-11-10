@@ -78,7 +78,7 @@
     }
 
     $(document).ready(function(){
-      {% if object.file %}show_player("{{ object.file.url }}", 1){% endif %};
+      {% if object.file %}show_player("{{ object.file.url }}", 1);{% endif %}
       {% if not object.file %}
         $("#convert-button").click(function(){
           $.ajax("{% url "order-converting" object.pk %}")
@@ -87,16 +87,16 @@
                 $("#no-file").addClass("hidden");
                 $("#error-alert").addClass("hidden");
                 $("#convert-button").text("Идет преобразование");
-                setInterval(function(){
+                var interval_id = setInterval(function(){
                   $.ajax("{% url "check-converting-status" object.pk %}")
                       .done(function(data){
                         if(data.result == "ok") {
-                          clearInterval();
+                          clearInterval(interval_id);
                           $("#convert-button").parent().remove();
                           show_player(data.url, 0);
                         }
                         else if(data.result == "error") {
-                          clearInterval();
+                          clearInterval(interval_id);
                           $("#error-alert").removeClass("hidden");
                           $("#convert-button").text("Попробовать снова");
                           $("#no-file").removeClass("hidden");
