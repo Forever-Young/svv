@@ -9,6 +9,7 @@ from django.core.files import File
 
 from youtube_dl.FileDownloader import FileDownloader
 from youtube_dl.extractor import YoutubeUserIE, YoutubePlaylistIE, YoutubeIE
+from youtube_dl.utils import ExtractorError
 
 from svv.models import PodcastIssue
 
@@ -54,7 +55,10 @@ class Command(BaseCommand):
             if issue and issue.title:
                 continue
 
-            info = ie_video.extract(url)[0]
+            try:
+                info = ie_video.extract(url)[0]
+            except ExtractorError:
+                continue
 
             d = info["upload_date"]
             d = date(int(d[:4]), int(d[4:6]), int(d[6:8]))
