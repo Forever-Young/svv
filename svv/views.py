@@ -13,7 +13,7 @@ class PodcastFeed(Feed):
     title = "SiliconValleyVoice"
     link = "/"
     feed_url = "/feed/"
-    description = "SiliconValleyVoice в MP3"
+    description = "SiliconValleyVoice в MP3".encode("utf-8")
     author_name = "Mikhail Portnov"
     item_enclosure_mime_type = "audio/mpeg"
 
