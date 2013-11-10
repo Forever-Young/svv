@@ -12,6 +12,7 @@ class PodcastIssue(models.Model):
     pub_date = models.DateTimeField(null=True, blank=True)
     youtube_url = models.URLField()
     skip_feed = models.BooleanField(default=False)
+    celery_task = models.CharField(max_length=40, null=True, blank=True)
 
     def __str__(self):
         if self.title:

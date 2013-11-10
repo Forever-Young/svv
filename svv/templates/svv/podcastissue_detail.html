@@ -9,7 +9,9 @@
 
   <div class="podcast-info">
     {% if not object.file %}
-      <div>MP3-файл не создан. <button id="convert-button" class="btn btn-primary">Запустить преобразование</button></div>
+      <div><span id="no-file">MP3-файл не создан.</span> <button id="convert-button" class="btn btn-primary">Запустить преобразование</button></div>
+      <p></p>
+      <div id="error-alert" class="alert alert-warning hidden">Невозможно преобразовать!</div>
     {% endif %}
     <div {% if not object.file %}class="hidden"{% endif %} id="player_block">
       <div id="jquery_jplayer_1" class="jp-jplayer"></div>
@@ -81,8 +83,9 @@
         $("#convert-button").click(function(){
           $.ajax("{% url "order-converting" object.pk %}")
               .done(function(data){
-{#                // TODO: check on errors #}
 {#                // TODO: rolling waiting symbol #}
+                $("#no-file").addClass("hidden");
+                $("#error-alert").addClass("hidden");
                 $("#convert-button").text("Идет преобразование");
                 setInterval(function(){
                   $.ajax("{% url "check-converting-status" object.pk %}")
@@ -94,12 +97,18 @@
                         }
                         else if(data.result == "error") {
                           clearInterval();
-                          // TODO: alert!
+                          $("#error-alert").removeClass("hidden");
+                          $("#convert-button").text("Попробовать снова");
+                          $("#no-file").removeClass("hidden");
                         }
                       });
-                }, 2000);
+                }, 5000);
               });
         });
+      {% endif %}
+      {% if object.celery_task %}
+          $("#no-file").addClass("hidden");
+          $("#convert-button").text("Идет преобразование");
       {% endif %}
     });
   </script>
