@@ -1,3 +1,5 @@
+from itertools import dropwhile
+
 from django.db import models
 from django.core.urlresolvers import reverse
 
@@ -28,9 +30,18 @@ class PodcastIssue(models.Model):
     def youtube_id(self):
         return self.youtube_url[self.youtube_url.rfind("=") + 1:]
 
-    def _length_str(self, len):
-        return ":".join([str(x).rjust(2, '0') for x in (len // 3600, (len % 3600) // 60, (len % 3600) % 60) if x > 0])\
-            .lstrip('0')
+    def _length_str(self, length):
+        data = [str(x).rjust(2, '0') for x in (length // 3600, (length % 3600) // 60, (length % 3600) % 60)]
+        data = list(dropwhile(lambda x: x == '00', data))
+        if len(data) < 2:
+            data.insert(0, '00')
+        if len(data) < 2:
+            data.insert(0, '00')
+        if len(data[0]) > 1:
+            data[0] = data[0].lstrip('0')
+            if not data[0]:
+                data[0] = '0'
+        return ":".join(data)
 
     def video_length(self):
         return self._length_str(self.length_video)
