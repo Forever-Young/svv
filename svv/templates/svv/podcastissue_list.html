@@ -1,18 +1,20 @@
 {% extends "base.html" %}
 {% load bootstrap_pagination %}
 
-{% block "contents" %}
+{% block contents %}
   <div class="row">
-  {% for issue in object_list %}
+  {% for object in object_list %}
 
 
     <div class="col-md-4">
-      <a href="{{ issue.get_absolute_url }}">
-        <img alt="Thumbnail" src="//i1.ytimg.com/vi/{{ issue.youtube_id }}/mqdefault.jpg">
+      <a class="thumbnail-block" href="{{ object.get_absolute_url }}">
+        <img alt="Thumbnail" src="//i1.ytimg.com/vi/{{ object.youtube_id }}/mqdefault.jpg">
+        {% if object.length_video or object.length_audio %}
+          <span class="time-block">{% if object.length_video %}{{ object.video_length }}{% endif %}{% if object.length_audio %} ({{ object.audio_length }}){% endif %}</span>
+        {% endif %}
       </a>
-      <div>
-        <p>{{ issue.title }}</p>
-      </div>
+      <div class="clearfix"></div>
+      <p>{{ object.title }}</p>
     </div>
     {% if forloop.counter|divisibleby:3 %}
       </div>

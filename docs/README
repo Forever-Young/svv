@@ -1,0 +1,9 @@
+Required programs:
+
+soundtouch
+lame
+mplayer
+youtube-dl (python lib)
+mediainfo
+mpg123 (for flv videos)
+faad2 (for mp4 videos)

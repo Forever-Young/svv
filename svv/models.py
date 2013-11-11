@@ -13,6 +13,8 @@ class PodcastIssue(models.Model):
     youtube_url = models.URLField()
     skip_feed = models.BooleanField(default=False)
     celery_task = models.CharField(max_length=40, null=True, blank=True)
+    length_video = models.IntegerField(default=0)
+    length_audio = models.IntegerField(default=0)
 
     def __str__(self):
         if self.title:
@@ -25,6 +27,16 @@ class PodcastIssue(models.Model):
 
     def youtube_id(self):
         return self.youtube_url[self.youtube_url.rfind("=") + 1:]
+
+    def _length_str(self, len):
+        return ":".join([str(x).rjust(2, '0') for x in (len // 3600, (len % 3600) // 60, (len % 3600) % 60) if x > 0])\
+            .lstrip('0')
+
+    def video_length(self):
+        return self._length_str(self.length_video)
+
+    def audio_length(self):
+        return self._length_str(self.length_audio)
 
     class Meta:
         ordering = ('-pub_date', '-title')

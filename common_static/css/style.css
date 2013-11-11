@@ -21,3 +21,29 @@ body {
      -moz-box-sizing: content-box;
           box-sizing: content-box;
 }
+
+.thumbnail-block {
+    position: relative;
+    float: left;
+}
+
+.time-block {
+    color: #FFFFFF !important;
+    background-color: #000000;
+
+    font-size: 11px;
+    font-weight: bold;
+    height: 14px;
+    line-height: 14px;
+    opacity: 0.75;
+
+    position: absolute;
+    display: block;
+    right: 2px;
+    bottom: 2px;
+
+    padding: 0 4px;
+    vertical-align: top;
+    margin-right: 0;
+    margin-top: 0;
+}
