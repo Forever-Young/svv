@@ -3,6 +3,7 @@ from optparse import make_option
 
 from django.core.management.base import BaseCommand
 from django.conf import settings
+from django.contrib.sitemaps import ping_google
 
 from svv.models import PodcastIssue
 from svv.utils import download_and_convert, get_list, get_video_info, get_audio_length
@@ -80,3 +81,8 @@ class Command(BaseCommand):
                 continue
 
             download_and_convert(issue)
+
+        try:
+            ping_google()
+        except Exception:
+            pass
