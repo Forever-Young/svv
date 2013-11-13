@@ -89,8 +89,10 @@
       {% if not object.file %}
         $("#convert-button").click(function(){
           $.ajax("{% url "order-converting" object.pk %}")
-              .done(function(){ {# data){ TODO: check for answer #}
-{#                // TODO: rolling waiting symbol #}
+{#              .done(function(data){ #}
+              .done(function(){
+                // TODO: check for answer
+                // TODO: rolling waiting symbol
                 $("#no-file").addClass("hidden");
                 $("#error-alert").addClass("hidden");
                 $("#convert-button").text("Идет преобразование");
