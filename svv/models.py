@@ -5,9 +5,7 @@ from django.core.urlresolvers import reverse
 
 
 class PodcastIssue(models.Model):
-    # if blank - youtube_url should be filled to store processed urls
     title = models.CharField(max_length=1000, null=True, blank=True)
-
     description = models.TextField(null=True, blank=True)
     short_description = models.CharField(max_length=1000, null=True, blank=True)
     file = models.FileField(upload_to="mp3", null=True, blank=True)
@@ -17,6 +15,7 @@ class PodcastIssue(models.Model):
     celery_task = models.CharField(max_length=40, null=True, blank=True)
     length_video = models.IntegerField(default=0)
     length_audio = models.IntegerField(default=0)
+    views = models.IntegerField(default=0)
 
     def __str__(self):
         if self.title:
