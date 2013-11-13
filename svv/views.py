@@ -47,26 +47,26 @@ class PodcastDetailView(DetailView):
 
 
 def order_converting(request, pk):
-    object = get_object_or_404(PodcastIssue, pk=pk)
+    obj = get_object_or_404(PodcastIssue, pk=pk)
     data = {"result": "ok"}
-    if not object.file:
-        object.celery_task = download_and_convert_task.delay(object.pk)
-        object.save()
+    if not obj.file:
+        obj.celery_task = download_and_convert_task.delay(obj.pk)
+        obj.save()
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 
 def check_converting_status(request, pk):
-    object = get_object_or_404(PodcastIssue, pk=pk)
+    obj = get_object_or_404(PodcastIssue, pk=pk)
     data = {}
-    if object.celery_task:
-        result = download_and_convert_task.AsyncResult(object.celery_task)
+    if obj.celery_task:
+        result = download_and_convert_task.AsyncResult(obj.celery_task)
         if result:
             if result.ready():
                 if result.get():
                     data["result"] = "ok"
-                    data["url"] = object.file.url
-                    object.celery_task = ""
-                    object.save()
+                    data["url"] = obj.file.url
+                    obj.celery_task = ""
+                    obj.save()
                 else:
                     data["result"] = "error"
             else:
@@ -74,9 +74,9 @@ def check_converting_status(request, pk):
         else:
             data["result"] = "error"
     else:
-        if not object.file:
+        if not obj.file:
             data["result"] = "not_ready"
         else:
             data["result"] = "ok"
-            data["url"] = object.file.url
+            data["url"] = obj.file.url
     return HttpResponse(json.dumps(data), content_type='application/json')

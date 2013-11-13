@@ -30,7 +30,8 @@ class PodcastIssue(models.Model):
     def youtube_id(self):
         return self.youtube_url[self.youtube_url.rfind("=") + 1:]
 
-    def _length_str(self, length):
+    @staticmethod
+    def _length_str(length):
         data = [str(x).rjust(2, '0') for x in (length // 3600, (length % 3600) // 60, (length % 3600) % 60)]
         data = list(dropwhile(lambda x: x == '00', data))
         if len(data) < 2:
