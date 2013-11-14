@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load bootstrap_pagination bootstrap %}
+
+{% block search_form %}
+  {{ form.q|bootstrap_inline }}
+{% endblock %}
+
+{% block contents %}
+  {% if query %}
+    <h3>Результаты поиска</h3>
+    {% if page.object_list %}
+      <div class="row">
+      {% for result in page.object_list %}
+        <div class="col-md-4">
+          <a class="thumbnail-block" href="{{ result.object.get_absolute_url }}">
+            <img alt="Thumbnail" src="//i1.ytimg.com/vi/{{ result.object.youtube_id }}/mqdefault.jpg">
+            {% if result.object.length_video or result.object.length_audio %}
+              <span class="time-block">{% if result.object.length_video %}{{ result.object.video_length }}{% endif %}{% if result.object.length_audio %} ({{ result.object.audio_length }}){% endif %}</span>
+            {% endif %}
+          </a>
+          <div class="clearfix"></div>
+          <p>{{ result.object.title }}</p>
+        </div>
+        {% if forloop.counter|divisibleby:3 %}
+          </div>
+          <div class="row">
+        {% endif %}
+      {% endfor %}
+      </div>
+    {% else %}
+        <h4>Ничего не найдено.</h4>
+    {% endif %}
+  {% else %}
+    <h3>Введите ключевые слова для поиска.</h3>
+  {% endif %}
+  {% if page.has_previous or page.has_next %}
+    {% bootstrap_paginate page range=5 show_first_last="true" %}
+  {% endif %}
+
+{% endblock %}
+
+{% block extrajs %}
+  <script>
+    $(document).keydown(function (event) {
+      var keycode = event.keyCode ? event.keyCode : event.which;
+      if (event.ctrlKey) {
+        if (keycode === 39) {
+            var nextExists = $('.pagination li.next a').attr('href');
+            if (nextExists) window.location.href = nextExists;
+        }
+        if (keycode === 37) {
+            var previousExists = $('.pagination li.previous a').attr('href');
+            if (previousExists) window.location.href = previousExists;
+        }
+      }
+    });
+  </script>
+
+{% endblock %}

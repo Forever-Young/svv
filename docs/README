@@ -7,3 +7,9 @@ youtube-dl (python lib)
 mediainfo
 mpg123 (for flv videos)
 faad2 (for mp4 videos)
+elasticsearch
+
+elasticsearch-analysis-morphology (optional)
+installation:
+$ cd /usr/share/elasticsearch
+$ sudo -u elasticsearch bin/plugin -install analysis-morphology -url http://dl.bintray.com/content/imotov/elasticsearch-plugins/elasticsearch-analysis-morphology-1.1.0.zip

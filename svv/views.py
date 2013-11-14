@@ -1,5 +1,6 @@
 import json
 
+from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.db.models.expressions import F
 from django.shortcuts import get_object_or_404
@@ -39,7 +40,7 @@ class PodcastFeed(Feed):
 
 
 class PodcastListView(ListView):
-    paginate_by = 6
+    paginate_by = settings.ISSUES_PER_PAGE
     queryset = PodcastIssue.objects.exclude(title__isnull=True)
 
 

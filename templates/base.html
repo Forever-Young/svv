@@ -35,9 +35,17 @@
           </a>
         </div>
         <div class="navbar-collapse collapse">
-          <p class="pull-right">
+
+          <form class="navbar-form navbar-right" action="{% url 'haystack_search' %}" method="get">
+            {% block search_form %}
+              <div class="form-group">
+                <input name="q" type="text" class="form-control">
+              </div>
+            {% endblock %}
+            <button type="submit" class="btn btn-primary">Найти</button>
+
             <a title="Подписаться на подкаст" href="http://feeds.feedburner.com/svv_mp3"><img width='48' height='48' src="{% static 'img/rss.png' %}"/></a>
-          </p>
+          </form>
         </div><!--/.navbar-collapse -->
       </div>
     </div>

@@ -43,7 +43,9 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'south',
     'bootstrap-pagination',
+    'bootstrapform',
     'djcelery',
+    'haystack',
 
     'svv',
 )
@@ -117,6 +119,15 @@ djcelery.setup_loader()
 BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 CELERY_RESULT_BACKEND = 'amqp://guest:guest@localhost:5672//'
 
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
+    },
+}
+
+ISSUES_PER_PAGE = HAYSTACK_SEARCH_RESULTS_PER_PAGE = 6
 SPEEDUP = "+20"
 YOUTUBE_URL = "https://www.youtube.com/user/SiliconValleyVoice/videos"
 TMP_DIR = os.path.join(BASE_DIR, "tmp")

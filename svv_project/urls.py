@@ -19,9 +19,10 @@ sitemaps = {
 urlpatterns = patterns('',
     url(r'^$', PodcastListView.as_view(), name='list'),
     url(r'^(?P<pk>\d+)/$', PodcastDetailView.as_view(), name='detail'),
-    url(r'^feed/$', PodcastFeed(), name='feed'),
     url(r'^order-converting/(?P<pk>\d+)/$', order_converting, name='order-converting'),
     url(r'^check-converting-status/(?P<pk>\d+)/$', check_converting_status, name='check-converting-status'),
+    url(r'^search/', include('haystack.urls')),
+    url(r'^feed/$', PodcastFeed(), name='feed'),
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps})
