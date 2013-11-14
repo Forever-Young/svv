@@ -85,7 +85,7 @@
     }
 
     $(document).ready(function(){
-      {% if object.file %}show_player("{{ object.file.url }}", 1);{% endif %}
+      {% if object.file %}show_player("{{ object.file.url }}", 0);{% endif %}
       {% if not object.file %}
         $("#convert-button").click(function(){
           $.ajax("{% url "order-converting" object.pk %}")
