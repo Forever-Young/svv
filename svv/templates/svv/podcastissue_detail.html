@@ -84,6 +84,25 @@
       $("#download-button").attr("href", url);
     }
 
+    var interval_id = 0;
+
+    function check_converting_status() {
+      $.ajax("{% url "check-converting-status" object.pk %}")
+          .done(function(data){
+            if(data.result == "ok") {
+              clearInterval(interval_id);
+              $("#convert-button").parent().remove();
+              show_player(data.url, 0);
+            }
+            else if(data.result == "error") {
+              clearInterval(interval_id);
+              $("#error-alert").removeClass("hidden");
+              $("#convert-button").text("Попробовать снова");
+              $("#no-file").removeClass("hidden");
+            }
+          });
+    }
+
     $(document).ready(function(){
       {% if object.file %}show_player("{{ object.file.url }}", 0);{% endif %}
       {% if not object.file %}
@@ -96,24 +115,12 @@
                 $("#no-file").addClass("hidden");
                 $("#error-alert").addClass("hidden");
                 $("#convert-button").text("Идет преобразование");
-                var interval_id = setInterval(function(){
-                  $.ajax("{% url "check-converting-status" object.pk %}")
-                      .done(function(data){
-                        if(data.result == "ok") {
-                          clearInterval(interval_id);
-                          $("#convert-button").parent().remove();
-                          show_player(data.url, 0);
-                        }
-                        else if(data.result == "error") {
-                          clearInterval(interval_id);
-                          $("#error-alert").removeClass("hidden");
-                          $("#convert-button").text("Попробовать снова");
-                          $("#no-file").removeClass("hidden");
-                        }
-                      });
-                }, 5000);
+                interval_id = setInterval(check_converting_status, 5000);
               });
         });
+      {% endif %}
+      {% if object.celery_task %}
+        interval_id = setInterval(check_converting_status, 5000);
       {% endif %}
     });
   </script>

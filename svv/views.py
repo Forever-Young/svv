@@ -82,7 +82,14 @@ def check_converting_status(request, pk):
             else:
                 data["result"] = "not_ready"
         else:
-            data["result"] = "error"
+            # FIXME: no such case really
+            if not obj.file:
+                data["result"] = "error"
+            else:
+                data["result"] = "ok"
+                data["url"] = obj.file.url
+            obj.celery_task = ""
+            obj.save()
     else:
         if not obj.file:
             data["result"] = "not_ready"
