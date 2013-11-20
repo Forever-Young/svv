@@ -10,8 +10,20 @@ from youtube_dl.utils import ExtractorError
 
 
 class _YDL:
+    def to_stderr(self, message):
+        print(message)
+
+    def to_console_title(self, message):
+        pass
+
+    def trouble(self, *args, **kargs):
+        pass
+
+    def report_warning(self, *args, **kargs):
+        pass
+
     def to_screen(self, message, skip_eol=False):
-        pass  # print(message)
+        pass
 
     def report_error(self, message, tb=None):
         print(message)  # TODO: log
