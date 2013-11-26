@@ -7,6 +7,7 @@ from django.core.files.base import File
 from youtube_dl.FileDownloader import FileDownloader
 from youtube_dl.extractor import YoutubeUserIE, YoutubePlaylistIE, YoutubeIE
 from youtube_dl.utils import ExtractorError
+from youtube_dl import YoutubeDL
 
 
 class _YDL:
@@ -29,8 +30,18 @@ class _YDL:
         print(message)  # TODO: log
 
 
+class _FileDownloader(FileDownloader):
+    urlopen = YoutubeDL.urlopen
+    _setup_opener = YoutubeDL._setup_opener
+
+    def __init__(self, *args, **kwargs):
+        res = super().__init__(*args, **kwargs)
+        self._setup_opener()
+        return res
+
+
 def get_downloader():
-    return FileDownloader(_YDL(), {"format": settings.YOUTUBE_FORMAT})
+    return _FileDownloader(_YDL(), {"format": settings.YOUTUBE_FORMAT})
 
 
 def get_list(url):
@@ -39,7 +50,7 @@ def get_list(url):
     if not ie_list.suitable(url):
         ie_list = YoutubePlaylistIE(downloader=downloader)
     try:
-        result = ie_list.extract(url)[0]
+        result = ie_list.extract(url)
     except ExtractorError:
         return []
     return [x["url"] for x in result["entries"]]
