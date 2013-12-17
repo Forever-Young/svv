@@ -5,16 +5,10 @@ env.use_ssh_config = True
 
 def deploy():
     with cd('/home/svv/svv'):
+        print("Stashing uncommitted changes, if any")
+        run("git stash")
         print("Updating sources")
-        print("Checking for uncommitted changes")
-        with settings(hide('running', 'stdout', 'stderr', 'warnings'), warn_only=True):
-            result = run('hg shelve').return_code
-        if result == 0:
-            print("Shelved uncommitted changes")
-        else:
-            print("No uncommitted changes")
-        run('hg pull')
-        run('hg update')
+        run('git pull')
 
         with prefix('source /home/svv/env/bin/activate'):
             run('pip install -r docs/requirements.txt --no-deps')
