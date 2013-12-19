@@ -92,7 +92,7 @@
             if(data.result == "ok") {
               clearInterval(interval_id);
               $("#convert-button").parent().remove();
-              show_player("{% object.get_file_url %}", data.url, 0);
+              show_player("{{ object.get_file_url }}", data.url, 0);
             }
             else if(data.result == "error") {
               clearInterval(interval_id);
