@@ -66,11 +66,11 @@
   <link rel="stylesheet" href="{% static 'css/skin/blue.monday/jplayer.blue.monday.css' %}" />
   <script src="{% static 'js/jquery.jplayer.min.js' %}"></script>
   <script>
-    function show_player(url, autostart) {
+    function show_player(url, direct_url, autostart) {
       $("#player_block").removeClass("hidden");
       $("#jquery_jplayer_1").jPlayer({
         ready: function () {
-          $(this).jPlayer("setMedia", {mp3: url});
+          $(this).jPlayer("setMedia", {mp3: direct_url});
           if(autostart){
             $(this).jPlayer('play');
           }
@@ -92,7 +92,7 @@
             if(data.result == "ok") {
               clearInterval(interval_id);
               $("#convert-button").parent().remove();
-              show_player(data.url, 0);
+              show_player("{% object.get_file_url %}", data.url, 0);
             }
             else if(data.result == "error") {
               clearInterval(interval_id);
@@ -104,7 +104,7 @@
     }
 
     $(document).ready(function(){
-      {% if object.file %}show_player("{{ object.file.url }}", 0);{% endif %}
+      {% if object.file %}show_player("{{ object.get_file_url }}", "{{ object.file.url }}", 0);{% endif %}
       {% if not object.file %}
         $("#convert-button").click(function(){
           $.ajax("{% url "order-converting" object.pk %}")
