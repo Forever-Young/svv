@@ -46,6 +46,14 @@ class PodcastListView(ListView):
 
 
 class PodcastDetailView(DetailView):
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        agent = self.request.META['HTTP_USER_AGENT'].lower()
+        bots = ('googlebot', 'yandex.com/bots', 'bingbot', 'adidxbot', 'msnbot', 'bingpreview')
+        if not [bot for bot in bots if bot in agent]:
+            PodcastIssue.objects.filter(pk=obj.pk).update(views=F('views') + 1)
+        return obj
+
     queryset = PodcastIssue.objects.exclude(title__isnull=True)
 
 
