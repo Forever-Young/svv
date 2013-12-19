@@ -104,6 +104,7 @@ def serve_file(request, pk):
     obj = get_object_or_404(PodcastIssue, pk=pk)
     PodcastIssue.objects.filter(pk=pk).update(views=F('views') + 1)
     response = HttpResponse()
+    response["Content-Type"] = "audio/mpeg"
     response["Content-Disposition"] = "attachment; filename*=UTF-8*''{0}".format(pathname2url(obj.pretty_file_name.encode("utf-8")))
     response['X-Accel-Redirect'] = obj.file.url
     return response
