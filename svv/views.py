@@ -1,4 +1,5 @@
 import json
+from urllib.request import pathname2url
 
 from django.conf import settings
 from django.contrib.syndication.views import Feed
@@ -30,7 +31,7 @@ class PodcastFeed(Feed):
         return item.short_description
 
     def item_enclosure_url(self, item):
-        return item.file.url
+        return item.get_file_url
 
     def item_enclosure_length(self, item):
         return item.file.size
@@ -45,14 +46,6 @@ class PodcastListView(ListView):
 
 
 class PodcastDetailView(DetailView):
-    def get_object(self, queryset=None):
-        obj = super().get_object(queryset)
-        agent = self.request.META['HTTP_USER_AGENT'].lower()
-        bots = ('googlebot', 'yandex.com/bots', 'bingbot', 'adidxbot', 'msnbot', 'bingpreview')
-        if not [bot for bot in bots if bot in agent]:
-            PodcastIssue.objects.filter(pk=obj.pk).update(views=F('views') + 1)
-        return obj
-
     queryset = PodcastIssue.objects.exclude(title__isnull=True)
 
 
@@ -97,3 +90,12 @@ def check_converting_status(request, pk):
             data["result"] = "ok"
             data["url"] = obj.file.url
     return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+def serve_file(request, pk):
+    obj = get_object_or_404(PodcastIssue, pk=pk)
+    PodcastIssue.objects.filter(pk=pk).update(views=F('views') + 1)
+    response = HttpResponse()
+    response["Content-Disposition"] = "attachment; filename*=UTF-8*''{0}".format(pathname2url(obj.pretty_file_name.encode("utf-8")))
+    response['X-Accel-Redirect'] = obj.file.url
+    return response

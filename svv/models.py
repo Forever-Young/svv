@@ -3,6 +3,8 @@ from itertools import dropwhile
 from django.db import models
 from django.core.urlresolvers import reverse
 
+from .utils import sanitize
+
 
 class PodcastIssue(models.Model):
     title = models.CharField(max_length=1000, null=True, blank=True)
@@ -26,6 +28,11 @@ class PodcastIssue(models.Model):
     def get_absolute_url(self):
         return reverse('detail', args=[str(self.id)])
 
+    @property
+    def get_file_url(self):
+        return reverse('download', args=[str(self.id)])
+
+    @property
     def youtube_id(self):
         return self.youtube_url[self.youtube_url.rfind("=") + 1:]
 
@@ -43,11 +50,18 @@ class PodcastIssue(models.Model):
                 data[0] = '0'
         return ":".join(data)
 
+    @property
     def video_length(self):
         return self._length_str(self.length_video)
 
+    @property
     def audio_length(self):
         return self._length_str(self.length_audio)
+
+    @property
+    def pretty_file_name(self):
+        return "{pub_date} {title} {youtube_id}".format(pub_date=self.pub_date.date(), title=sanitize(self.title),
+                youtube_id=self.youtube_id)[:240] + ".mp3"
 
     class Meta:
         ordering = ('-pub_date', '-title')
