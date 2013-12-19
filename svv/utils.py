@@ -91,7 +91,7 @@ def download_and_convert(issue):
           tmp_video_fn, settings.YOUTUBE_EXT, settings.SPEEDUP, tmp_dir, result_fn])
 
     with open(result_fn, "rb") as f:
-        issue.file.save("{0}.mp3".format(issue.youtube_id()), File(f))
+        issue.file.save("{0}.mp3".format(issue.youtube_id), File(f))
         issue.length_audio = get_audio_length(issue.file.path)
         issue.save()
 
