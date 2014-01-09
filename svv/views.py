@@ -48,6 +48,9 @@ class PodcastListView(ListView):
 class PodcastDetailView(DetailView):
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
+        if obj.file and obj.celery_task:
+            obj.celery_task = ""
+            obj.save()
         agent = self.request.META['HTTP_USER_AGENT'].lower()
         bots = ('googlebot', 'yandex.com/bots', 'bingbot', 'adidxbot', 'msnbot', 'bingpreview')
         if not [bot for bot in bots if bot in agent]:

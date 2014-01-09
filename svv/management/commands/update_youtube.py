@@ -81,7 +81,8 @@ class Command(BaseCommand):
             if options["only_info"]:
                 continue
 
-            download_and_convert_task.delay(issue.pk, skip_feed=False)
+            issue.celery_task = download_and_convert_task.delay(issue.pk, skip_feed=False)
+            issue.save()
 
         try:
             ping_google()
