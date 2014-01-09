@@ -5,8 +5,9 @@ from django.core.management.base import BaseCommand
 from django.conf import settings
 from django.contrib.sitemaps import ping_google
 
-from svv.models import PodcastIssue
-from svv.utils import download_and_convert, get_list, get_video_info, get_audio_length
+from ...models import PodcastIssue
+from ...utils import get_list, get_video_info, get_audio_length
+from ...tasks import download_and_convert_task
 
 
 class Command(BaseCommand):
@@ -80,7 +81,7 @@ class Command(BaseCommand):
             if options["only_info"]:
                 continue
 
-            download_and_convert(issue)
+            download_and_convert_task.delay(issue.pk, skip_feed=False)
 
         try:
             ping_google()

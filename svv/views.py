@@ -61,7 +61,7 @@ def order_converting(request, pk):
     obj = get_object_or_404(PodcastIssue, pk=pk)
     data = {"result": "ok"}
     if not obj.file:
-        obj.celery_task = download_and_convert_task.delay(obj.pk)
+        obj.celery_task = download_and_convert_task.delay(obj.pk, skip_feed=True)
         obj.save()
     return HttpResponse(json.dumps(data), content_type='application/json')
 

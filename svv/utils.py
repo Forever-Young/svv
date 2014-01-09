@@ -1,5 +1,6 @@
 import os
 import unicodedata
+from tempfile import mktemp
 
 from subprocess import call, check_output, CalledProcessError
 
@@ -43,7 +44,7 @@ class _FileDownloader(FileDownloader):
 
 
 def get_downloader():
-    return _FileDownloader(_YDL(), {"format": settings.YOUTUBE_FORMAT})
+    return _FileDownloader(_YDL(), {})
 
 
 def get_list(url):
@@ -62,10 +63,9 @@ def get_video_info(url):
     downloader = get_downloader()
     ie = YoutubeIE(downloader=downloader)
     try:
-        info = ie.extract(url)[0]
+        return ie.extract(url)
     except ExtractorError:
         return None
-    return info
 
 
 def get_audio_length(path):
@@ -79,14 +79,14 @@ def download_and_convert(issue):
     downloader = get_downloader()
     ie = YoutubeIE(downloader=downloader)
     try:
-        info = ie.extract(issue.youtube_url)[0]
+        info = ie.extract(issue.youtube_url)
     except ExtractorError:
         return False
 
     tmp_dir = os.path.join(settings.TMP_DIR)
-    tmp_video_fn = os.path.join(tmp_dir, 'video.{0}'.format(settings.YOUTUBE_EXT))
-    downloader._do_download(tmp_video_fn, info)
-    result_fn = os.path.join(tmp_dir, "result.mp3")
+    tmp_video_fn = mktemp(suffix="." + settings.YOUTUBE_EXT, dir=tmp_dir)
+    downloader._do_download(tmp_video_fn, [x for x in info["formats"] if x["format_id"] == settings.YOUTUBE_FORMAT][0])
+    result_fn = mktemp(suffix=".mp3", dir=tmp_dir)
     call([os.path.join(settings.BASE_DIR, "scripts", "extract-speedup-file.sh"),
           tmp_video_fn, settings.YOUTUBE_EXT, settings.SPEEDUP, tmp_dir, result_fn])
 
