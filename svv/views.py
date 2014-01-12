@@ -74,29 +74,25 @@ def check_converting_status(request, pk):
     data = {}
     if obj.celery_task:
         result = download_and_convert_task.AsyncResult(obj.celery_task)
-        if result:
-            if result.ready():
-                if result.get():
+        if result.ready():
+            if result.failed():
+                if not obj.file:
+                    data["result"] = "error"
+                else:
                     data["result"] = "ok"
                     data["url"] = obj.file.url
-                    obj.celery_task = ""
-                    obj.save()
-                else:
-                    data["result"] = "error"
-            else:
-                data["result"] = "not_ready"
-        else:
-            # FIXME: no such case really
-            if not obj.file:
-                data["result"] = "error"
+                obj.celery_task = ""
+                obj.save()
             else:
                 data["result"] = "ok"
                 data["url"] = obj.file.url
-            obj.celery_task = ""
-            obj.save()
+                obj.celery_task = ""
+                obj.save()
+        else:
+            data["result"] = "not_ready"
     else:
         if not obj.file:
-            data["result"] = "not_ready"
+            data["result"] = "error"
         else:
             data["result"] = "ok"
             data["url"] = obj.file.url
