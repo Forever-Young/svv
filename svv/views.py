@@ -6,7 +6,7 @@ from django.contrib.syndication.views import Feed
 from django.db.models.expressions import F
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 
 from .models import PodcastIssue
 from .tasks import download_and_convert_task
@@ -101,6 +101,8 @@ def check_converting_status(request, pk):
 
 def serve_file(request, pk):
     obj = get_object_or_404(PodcastIssue, pk=pk)
+    if not obj.file:
+        raise Http404
     PodcastIssue.objects.filter(pk=pk).update(views=F('views') + 1)
     response = HttpResponse()
     response["Content-Type"] = "audio/mpeg"
