@@ -85,7 +85,13 @@ def download_and_convert(issue):
 
     tmp_dir = os.path.join(settings.TMP_DIR)
     tmp_video_fn = mktemp(suffix="." + settings.YOUTUBE_EXT, dir=tmp_dir)
-    downloader._do_download(tmp_video_fn, [x for x in info["formats"] if x["format_id"] == settings.YOUTUBE_FORMAT][0])
+    try:
+        downloader._do_download(tmp_video_fn, [x for x in info["formats"] if x["format_id"] == settings.YOUTUBE_FORMAT][0])
+    finally:
+        try:
+            os.remove(tmp_video_fn + ".part")
+        except FileNotFoundError:
+            pass
     result_fn = mktemp(suffix=".mp3", dir=tmp_dir)
     call([os.path.join(settings.BASE_DIR, "scripts", "extract-speedup-file.sh"),
           tmp_video_fn, settings.YOUTUBE_EXT, settings.SPEEDUP, tmp_dir, result_fn])
