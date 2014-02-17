@@ -51,7 +51,7 @@ class PodcastDetailView(DetailView):
         if obj.file and obj.celery_task:
             obj.celery_task = ""
             obj.save()
-        agent = self.request.META['HTTP_USER_AGENT'].lower()
+        agent = self.request.META.get('HTTP_USER_AGENT', '').lower()
         bots = ('googlebot', 'yandex.com/bots', 'bingbot', 'adidxbot', 'msnbot', 'bingpreview')
         if not [bot for bot in bots if bot in agent]:
             PodcastIssue.objects.filter(pk=obj.pk).update(views=F('views') + 1)
