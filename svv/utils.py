@@ -13,7 +13,7 @@ from youtube_dl.utils import ExtractorError
 from youtube_dl import YoutubeDL
 
 
-class _YDL:
+class _YDL(YoutubeDL):
     def to_stderr(self, message):
         print(message)
 
