@@ -57,6 +57,19 @@ class PodcastDetailView(DetailView):
             PodcastIssue.objects.filter(pk=obj.pk).update(views=F('views') + 1)
         return obj
 
+    def get_context_data(self, object):
+        prev = next = None
+        for pk in [item[0] for item in self.queryset.values_list('pk')]:
+            if next:
+                next = pk
+                break
+            if pk == object.pk:
+                next = True
+            else:
+                prev = pk
+        context = {'prev': prev, 'next': next}
+        return super().get_context_data(**context)
+
     queryset = PodcastIssue.objects.exclude(title__isnull=True)
 
 

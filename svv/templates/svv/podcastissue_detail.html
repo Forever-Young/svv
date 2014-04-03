@@ -2,6 +2,9 @@
 {% load bootstrap_pagination staticfiles %}
 
 {% block contents %}
+  {% if prev %}<a id="prev-issue" href="{% url 'detail' prev %}" role="button" class="btn btn-default">&larr;</a>{% endif %}
+  {% if next %}<a id="next-issue" href="{% url 'detail' next %}" role="button" class="btn btn-default">&rarr;</a>{% endif %}
+
   <h2>{{ object.title }}</h2>
   <a href="{{ object.youtube_url }}" title="Ссылка на видео на Youtube" class="thumbnail-block">
     <img width="320" alt="Thumbnail" src="//i1.ytimg.com/vi/{{ object.youtube_id }}/mqdefault.jpg" />
@@ -122,6 +125,20 @@
       {% if object.celery_task %}
         interval_id = setInterval(check_converting_status, 5000);
       {% endif %}
+    });
+
+    $(document).keydown(function (event) {
+      var keycode = event.keyCode ? event.keyCode : event.which;
+      if (event.ctrlKey) {
+        if (keycode === 39) {
+            var nextExists = $('#next-issue').attr('href');
+            if (nextExists) window.location.href = nextExists;
+        }
+        if (keycode === 37) {
+            var previousExists = $('#prev-issue').attr('href');
+            if (previousExists) window.location.href = previousExists;
+        }
+      }
     });
   </script>
 {% endblock %}
