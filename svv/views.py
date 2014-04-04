@@ -21,7 +21,7 @@ class PodcastFeed(Feed):
     item_enclosure_mime_type = "audio/mpeg"
 
     def items(self):
-        return PodcastIssue.objects.exclude(title__isnull=True).exclude(skip_feed=True)\
+        return PodcastIssue.objects.exclude(title__isnull=True).exclude(title__exact="").exclude(skip_feed=True)\
             .exclude(file__exact="").exclude(file__isnull=True)
 
     def item_title(self, item):
@@ -42,7 +42,7 @@ class PodcastFeed(Feed):
 
 class PodcastListView(ListView):
     paginate_by = settings.ISSUES_PER_PAGE
-    queryset = PodcastIssue.objects.exclude(title__isnull=True)
+    queryset = PodcastIssue.objects.exclude(title__isnull=True).exclude(title__exact="")
 
 
 class PodcastDetailView(DetailView):
@@ -70,7 +70,7 @@ class PodcastDetailView(DetailView):
         context = {'prev': prev, 'next': next}
         return super().get_context_data(**context)
 
-    queryset = PodcastIssue.objects.exclude(title__isnull=True)
+    queryset = PodcastIssue.objects.exclude(title__isnull=True).exclude(title__exact="")
 
 
 def order_converting(request, pk):
