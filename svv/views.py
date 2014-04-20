@@ -2,6 +2,7 @@ import json
 from urllib.request import pathname2url
 
 from django.conf import settings
+from django.contrib.sites.models import Site
 from django.contrib.syndication.views import Feed
 from django.db.models.expressions import F
 from django.shortcuts import get_object_or_404
@@ -31,7 +32,7 @@ class PodcastFeed(Feed):
         return item.short_description
 
     def item_enclosure_url(self, item):
-        return item.get_file_url
+        return "http://{}{}".format(Site.objects.get_current(), item.get_file_url)
 
     def item_enclosure_length(self, item):
         return item.file.size
