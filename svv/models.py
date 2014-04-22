@@ -33,6 +33,10 @@ class PodcastIssue(models.Model):
         return reverse('download', args=[str(self.id)])
 
     @property
+    def get_direct_file_url(self):
+        return self.file.url
+
+    @property
     def youtube_id(self):
         return self.youtube_url[self.youtube_url.rfind("=") + 1:]
 

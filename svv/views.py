@@ -32,7 +32,7 @@ class PodcastFeed(Feed):
         return item.short_description
 
     def item_enclosure_url(self, item):
-        return "http://{}{}".format(Site.objects.get_current(), item.get_file_url)
+        return "http://{}{}".format(Site.objects.get_current(), item.get_direct_file_url)
 
     def item_enclosure_length(self, item):
         return item.file.size
