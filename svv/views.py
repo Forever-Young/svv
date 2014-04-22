@@ -23,7 +23,7 @@ class PodcastFeed(Feed):
 
     def items(self):
         return PodcastIssue.objects.exclude(title__isnull=True).exclude(title__exact="").exclude(skip_feed=True)\
-            .exclude(file__exact="").exclude(file__isnull=True)
+            .exclude(file__exact="").exclude(file__isnull=True)[:50]
 
     def item_title(self, item):
         return item.title
