@@ -1,4 +1,4 @@
-Django==1.6.3
+Django==1.6.4
 South==0.8.4
 git+https://github.com/Forever-Young/django-bootstrap-pagination.git@aabb7f1bfa5ae83a43d8698ee51518dbdd441742
 django-bootstrap-form==3.1
@@ -6,7 +6,7 @@ amqp==1.4.5
 anyjson==0.3.3
 billiard==3.3.0.17
 celery==3.1.11
-kombu==3.0.15
+kombu==3.0.16
 pytz==2014.2
 django-celery==3.1.10
 git+https://github.com/toastdriven/django-haystack.git@366e7489169d460d36ac4d942c22c0e97e58c26b
@@ -14,6 +14,6 @@ elasticsearch==1.0.0
 python-dateutil==2.2
 requests==2.2.1
 urllib3==1.8.2
-simplejson==3.4.0
+simplejson==3.4.1
 six==1.6.1
 sqlparse==0.1.11
