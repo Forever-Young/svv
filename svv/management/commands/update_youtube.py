@@ -51,7 +51,10 @@ class Command(BaseCommand):
                 continue
 
             d = info["upload_date"]
-            d = date(int(d[:4]), int(d[4:6]), int(d[6:8]))
+            if not d:
+                d = date.today()
+            else:
+                d = date(int(d[:4]), int(d[4:6]), int(d[6:8]))
             d = datetime.combine(d, time())
 
             desc = info["description"]
