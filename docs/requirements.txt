@@ -6,8 +6,8 @@ amqp==1.4.5
 anyjson==0.3.3
 billiard==3.3.0.17
 celery==3.1.11
-kombu==3.0.16
-pytz==2014.3
+kombu==3.0.18
+pytz==2014.4
 django-celery==3.1.10
 git+https://github.com/toastdriven/django-haystack.git@366e7489169d460d36ac4d942c22c0e97e58c26b
 elasticsearch==1.0.0
@@ -15,5 +15,5 @@ python-dateutil==2.2
 requests==2.3.0
 urllib3==1.8.2
 simplejson==3.5.2
-six==1.6.1
+six==1.7.0
 sqlparse==0.1.11
