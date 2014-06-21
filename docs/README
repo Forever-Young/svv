@@ -10,6 +10,5 @@ faad2 (for mp4 videos)
 elasticsearch
 
 elasticsearch-analysis-morphology (optional)
-installation (for elasticsearch 1.0.1):
-$ cd /usr/share/elasticsearch
-$ sudo -u elasticsearch elasticsearch-plugin -install analysis-morphology -url http://dl.bintray.com/content/imotov/elasticsearch-plugins/org/elasticsearch/elasticsearch-analysis-morphology/1.2.0/elasticsearch-analysis-morphology-1.2.0.zip
+installation (for elasticsearch 1.2.1):
+$ sudo elasticsearch-plugin -install analysis-morphology -url http://dl.bintray.com/content/imotov/elasticsearch-plugins/org/elasticsearch/elasticsearch-analysis-morphology/1.2.0/elasticsearch-analysis-morphology-1.2.0.zip
