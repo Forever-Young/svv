@@ -3,12 +3,12 @@ Required programs:
 soundtouch
 lame
 mplayer
-youtube-dl (python lib), tested with version 2014.05.16
+youtube-dl (python lib), tested with version 2014.06.26
 mediainfo
 mpg123 (for flv videos)
 faad2 (for mp4 videos)
 elasticsearch
 
-elasticsearch-analysis-morphology (optional)
+elasticsearch-analysis-morphology
 installation (for elasticsearch 1.2.1):
 $ sudo elasticsearch-plugin -install analysis-morphology -url http://dl.bintray.com/content/imotov/elasticsearch-plugins/org/elasticsearch/elasticsearch-analysis-morphology/1.2.0/elasticsearch-analysis-morphology-1.2.0.zip
