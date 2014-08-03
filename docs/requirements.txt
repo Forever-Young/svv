@@ -10,7 +10,7 @@ kombu==3.0.21
 pytz==2014.4
 django-celery==3.1.10
 git+https://github.com/toastdriven/django-haystack.git@0043fac849dbb6cda7a4597821b27cbb7e87f9d9
-elasticsearch==1.1.1
+elasticsearch==1.2.0
 python-dateutil==2.2
 requests==2.3.0
 urllib3==1.9
