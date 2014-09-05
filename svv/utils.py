@@ -7,7 +7,7 @@ from subprocess import call, check_output, CalledProcessError
 from django.conf import settings
 from django.core.files.base import File
 
-from youtube_dl.FileDownloader import FileDownloader
+from youtube_dl.downloader import FileDownloader
 from youtube_dl.extractor import YoutubeUserIE, YoutubePlaylistIE, YoutubeIE
 from youtube_dl.utils import ExtractorError
 from youtube_dl import YoutubeDL
