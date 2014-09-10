@@ -68,6 +68,8 @@ class PodcastDetailView(DetailView):
                 next = True
             else:
                 prev = pk
+        if next == True:
+            next = None
         context = {'prev': prev, 'next': next}
         return super().get_context_data(**context)
 
