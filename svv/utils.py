@@ -7,7 +7,7 @@ from subprocess import call, check_output, CalledProcessError
 from django.conf import settings
 from django.core.files.base import File
 
-from youtube_dl.downloader import FileDownloader
+from youtube_dl.downloader import HttpFD
 from youtube_dl.extractor import YoutubeUserIE, YoutubePlaylistIE, YoutubeIE
 from youtube_dl.utils import ExtractorError
 from youtube_dl import YoutubeDL
@@ -33,7 +33,7 @@ class _YDL(YoutubeDL):
         print(message)  # TODO: log
 
 
-class _FileDownloader(FileDownloader):
+class _FileDownloader(HttpFD):
     urlopen = YoutubeDL.urlopen
     _setup_opener = YoutubeDL._setup_opener
 
@@ -86,7 +86,7 @@ def download_and_convert(issue):
     tmp_dir = os.path.join(settings.TMP_DIR)
     tmp_video_fn = mktemp(suffix="." + settings.YOUTUBE_EXT, dir=tmp_dir)
     try:
-        downloader._do_download(tmp_video_fn, [x for x in info["formats"] if x["format_id"] == settings.YOUTUBE_FORMAT][0])
+        downloader.download(tmp_video_fn, [x for x in info["formats"] if x["format_id"] == settings.YOUTUBE_FORMAT][0])
     finally:
         try:
             os.remove(tmp_video_fn + ".part")
