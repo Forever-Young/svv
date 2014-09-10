@@ -40,7 +40,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
-    'south',
     'bootstrap_pagination',
     'bootstrapform',
     'djcelery',

@@ -12,7 +12,6 @@ def deploy():
 
         with prefix('source /home/svv/env/bin/activate'):
             run('pip install -r docs/requirements.txt --no-deps')
-            run('./manage.py syncdb --noinput')
             run('./manage.py migrate --noinput')
             run('./manage.py collectstatic -c -l --noinput')
 
