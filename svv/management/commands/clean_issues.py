@@ -29,12 +29,14 @@ class Command(BaseCommand):
         if not options["days"] and not options["views"]:
             raise CommandError('Please select one filter option')
 
+        q = PodcastIssue.objects.filter(skip_feed__exact=True)
+
         try:
             if options["days"]:
                 d = date.today() - timedelta(days=int(options["days"]))
-                q = PodcastIssue.objects.filter(last_view__lte=d)
+                q = q.filter(last_view__lte=d)
             else:
-                q = PodcastIssue.objects.filter(views__lt=int(options["views"]))
+                q = q.filter(views__lt=int(options["views"]))
         except ValueError:
             raise CommandError('Please specify integer')
 
