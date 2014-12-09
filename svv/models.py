@@ -1,3 +1,4 @@
+import os
 from itertools import dropwhile
 
 from django.db import models
@@ -28,6 +29,13 @@ class PodcastIssue(models.Model):
 
     def get_absolute_url(self):
         return reverse('detail', args=[str(self.id)])
+
+    def delete_file(self):
+        if self.file:
+            if os.path.isfile(self.file.path):
+                os.remove(self.file.path)
+            self.file = None
+            self.save()
 
     @property
     def get_file_url(self):
