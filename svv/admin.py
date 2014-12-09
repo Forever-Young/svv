@@ -4,7 +4,7 @@ from .models import PodcastIssue
 
 
 class PodcastIssueAdmin(admin.ModelAdmin):
-    list_display = ('title', 'views')
+    list_display = ('title', 'views', 'last_view')
     search_fields = ('title', 'youtube_url')
 
 

@@ -1,5 +1,6 @@
 import json
 from urllib.request import pathname2url
+from datetime import datetime
 
 from django.conf import settings
 from django.contrib.sites.models import Site
@@ -55,7 +56,7 @@ class PodcastDetailView(DetailView):
         agent = self.request.META.get('HTTP_USER_AGENT', '').lower()
         bots = ('googlebot', 'yandex.com/bots', 'bingbot', 'adidxbot', 'msnbot', 'bingpreview')
         if not [bot for bot in bots if bot in agent]:
-            PodcastIssue.objects.filter(pk=obj.pk).update(views=F('views') + 1)
+            PodcastIssue.objects.filter(pk=obj.pk).update(views=F('views') + 1, last_view=datetime.utcnow())
         return obj
 
     def get_context_data(self, object):
@@ -119,7 +120,7 @@ def serve_file(request, pk):
     obj = get_object_or_404(PodcastIssue, pk=pk)
     if not obj.file:
         raise Http404
-    PodcastIssue.objects.filter(pk=pk).update(views=F('views') + 1)
+    PodcastIssue.objects.filter(pk=pk).update(views=F('views') + 1, last_view=datetime.utcnow())
     response = HttpResponse()
     response["Content-Type"] = "audio/mpeg"
     response["Content-Disposition"] = "attachment; filename*=UTF-8*''{0}".format(pathname2url(obj.pretty_file_name.encode("utf-8")))

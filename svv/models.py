@@ -18,6 +18,7 @@ class PodcastIssue(models.Model):
     length_video = models.IntegerField(default=0)
     length_audio = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
+    last_view = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         if self.title:
