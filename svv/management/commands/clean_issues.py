@@ -29,7 +29,7 @@ class Command(BaseCommand):
         if not options["days"] and not options["views"]:
             raise CommandError('Please select one filter option')
 
-        q = PodcastIssue.objects.filter(skip_feed__exact=True)
+        q = PodcastIssue.objects.filter(skip_feed__exact=True).exclude(file__isnull=True)
 
         try:
             if options["days"]:
