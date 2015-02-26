@@ -3,7 +3,7 @@ Required programs:
 soundtouch
 lame
 mplayer
-youtube-dl (python lib), tested with version 2015.01.25
+youtube-dl (python lib), tested with version 2015.02.23.1
 mediainfo
 mpg123 (for flv videos)
 faad2 (for mp4 videos)
