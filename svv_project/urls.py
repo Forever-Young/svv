@@ -9,7 +9,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 from svv.views import (PodcastListView, PodcastDetailView, PodcastFeed,
-                       order_converting, check_converting_status, serve_file)
+                       order_converting, check_converting_status, serve_file, export_csv)
 from svv.models import PodcastIssue
 from svv.sitemaps import StaticViewSitemap
 
@@ -27,7 +27,7 @@ urlpatterns = patterns('',
     url(r'^check-converting-status/(?P<pk>\d+)/$', check_converting_status, name='check-converting-status'),
     url(r'^search/', include('haystack.urls')),
     url(r'^feed/$', PodcastFeed(), name='feed'),
-
+    url(r'^csv/$', export_csv, name='export_csv'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps})
 )

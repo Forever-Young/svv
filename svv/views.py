@@ -1,4 +1,5 @@
 import json
+import csv
 from urllib.request import pathname2url
 from datetime import datetime
 
@@ -8,7 +9,7 @@ from django.contrib.syndication.views import Feed
 from django.db.models.expressions import F
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, StreamingHttpResponse
 
 from .models import PodcastIssue
 from .tasks import download_and_convert_task
@@ -23,8 +24,8 @@ class PodcastFeed(Feed):
     item_enclosure_mime_type = "audio/mpeg"
 
     def items(self):
-        return PodcastIssue.objects.exclude(title__isnull=True).exclude(title__exact="").exclude(skip_feed=True)\
-            .exclude(file__exact="").exclude(file__isnull=True)[:50]
+        return PodcastIssue.objects.exclude(title__isnull=True).exclude(title__exact="").exclude(skip_feed=True) \
+                   .exclude(file__exact="").exclude(file__isnull=True)[:50]
 
     def item_title(self, item):
         return item.title
@@ -123,6 +124,36 @@ def serve_file(request, pk):
     PodcastIssue.objects.filter(pk=pk).update(views=F('views') + 1, last_view=datetime.utcnow())
     response = HttpResponse()
     response["Content-Type"] = "audio/mpeg"
-    response["Content-Disposition"] = "attachment; filename*=UTF-8*''{0}".format(pathname2url(obj.pretty_file_name.encode("utf-8")))
+    response["Content-Disposition"] = "attachment; filename*=UTF-8*''{0}".format(
+        pathname2url(obj.pretty_file_name.encode("utf-8")))
     response['X-Accel-Redirect'] = obj.file.url
+    return response
+
+
+# https://docs.djangoproject.com/en/1.7/howto/outputting-csv/
+class Echo(object):
+    """An object that implements just the write method of the file-like
+    interface.
+    """
+
+    def write(self, value):
+        """Write the value by returning it, instead of storing in a buffer."""
+        return value
+
+
+def get_podcast_issues(request):
+    for issue in PodcastIssue.objects.all():
+        yield (
+            request.build_absolute_uri(issue.get_absolute_url()),
+            request.build_absolute_uri(issue.get_file_url),
+            issue.title, issue.short_description, issue.youtube_url
+        )
+
+
+def export_csv(request):
+    pseudo_buffer = Echo()
+    writer = csv.writer(pseudo_buffer, quoting=csv.QUOTE_ALL)
+    response = StreamingHttpResponse((writer.writerow(row) for row in get_podcast_issues(request)),
+                                     content_type="text/csv")
+    response['Content-Disposition'] = 'attachment; filename="svv_issues.csv"'
     return response
