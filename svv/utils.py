@@ -56,7 +56,13 @@ def get_list(url):
         result = ie_list.extract(url)
     except ExtractorError:
         return []
-    return ["http://www.youtube.com/watch?v={0}".format(x["url"]) for x in result["entries"].getslice()]
+    if result["_type"] == "url":
+        ie_list = YoutubePlaylistIE(downloader=downloader)
+    try:
+        result = ie_list.extract(result["url"])
+    except ExtractorError:
+        return []
+    return ["http://www.youtube.com/watch?v={0}".format(x["url"]) for x in result["entries"]]
 
 
 def get_video_info(url):

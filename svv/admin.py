@@ -8,7 +8,7 @@ class PodcastIssueAdmin(admin.ModelAdmin):
     search_fields = ('title', 'youtube_url')
 
     def downloaded(self, obj):
-        return obj.file != ''
+        return bool(obj.file)
     downloaded.boolean = True
 
 admin.site.register(PodcastIssue, PodcastIssueAdmin)
