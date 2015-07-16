@@ -16,4 +16,4 @@ urllib3==1.10.4
 simplejson==3.7.3
 six==1.9.0
 sqlparse==0.1.15
-git+git://github.com/davispuh/MySQL-for-Python-3
+psycopg2==2.6.1
