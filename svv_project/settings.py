@@ -184,8 +184,8 @@ ISSUES_PER_PAGE = HAYSTACK_SEARCH_RESULTS_PER_PAGE = 6
 SPEEDUP = "+20"
 YOUTUBE_URL = "https://www.youtube.com/user/SiliconValleyVoice/videos"
 TMP_DIR = os.path.join(BASE_DIR, "tmp")
-YOUTUBE_FORMAT = "5"
-YOUTUBE_EXT = "flv"
+YOUTUBE_FORMAT = "18"
+YOUTUBE_EXT = "mp4"
 
 try:
     from .settings_local import *
