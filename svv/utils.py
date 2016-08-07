@@ -107,7 +107,6 @@ def download_and_convert(issue):
         issue.length_audio = get_audio_length(issue.file.path)
         issue.save()
 
-    os.remove(tmp_video_fn)
     os.remove(result_fn)
     return True
 
