@@ -21,7 +21,7 @@ class Command(BaseCommand):
             default=None,
             help='Select issues, which view count is less than N'),
         make_option('--not-in-rss',
-            action='store',
+            action='store_true',
             dest='not_in_rss',
             default=False,
             help='Select issues, which are not in the RSS feed'),
