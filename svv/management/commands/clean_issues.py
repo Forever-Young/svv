@@ -20,25 +20,33 @@ class Command(BaseCommand):
             dest='views',
             default=None,
             help='Select issues, which view count is less than N'),
+        make_option('--not-in-rss',
+            action='store',
+            dest='not_in_rss',
+            default=False,
+            help='Select issues, which are not in the RSS feed'),
         )
 
     def handle(self, *args, **options):
-        if options["days"] and options["views"]:
+        if options["days"] and options["views"] and options["not_in_rss"]:
             raise CommandError('Please select only one filter option')
 
-        if not options["days"] and not options["views"]:
+        if not options["days"] and not options["views"] and not options["not_in_rss"]:
             raise CommandError('Please select one filter option')
 
-        q = PodcastIssue.objects.filter(skip_feed__exact=True).exclude(file='')
-
-        try:
-            if options["days"]:
-                d = date.today() - timedelta(days=int(options["days"]))
-                q = q.filter(last_view__lte=d)
-            else:
-                q = q.filter(views__lt=int(options["views"]))
-        except ValueError:
-            raise CommandError('Please specify integer')
+        if options["not_in_rss"]:
+            q = PodcastIssue.objects.exclude(title__isnull=True).exclude(title__exact="").exclude(skip_feed=True) \
+                       .exclude(file__exact="").exclude(file__isnull=True)[50:]
+        else:
+            q = PodcastIssue.objects.filter(skip_feed__exact=True).exclude(file='')
+            try:
+                if options["days"]:
+                    d = date.today() - timedelta(days=int(options["days"]))
+                    q = q.filter(last_view__lte=d)
+                else:
+                    q = q.filter(views__lt=int(options["views"]))
+            except ValueError:
+                raise CommandError('Please specify integer')
 
         if not q:
             print('No suitable issues is found')
