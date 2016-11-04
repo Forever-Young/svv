@@ -3,7 +3,7 @@ git+https://github.com/restless/django-bootstrap-pagination.git@95447579bbea0d27
 django-bootstrap-form==3.2.1
 amqp==2.1.1
 anyjson==0.3.3
-billiard==3.5.0.1
+billiard==3.5.0.2
 celery==3.1.24
 kombu==4.0.0
 pytz==2016.7
