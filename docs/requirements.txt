@@ -10,7 +10,7 @@ pytz==2016.7
 django-celery==3.1.17
 django-haystack==2.5.1
 elasticsearch==5.0.1
-python-dateutil==2.5.3
+python-dateutil==2.6.0
 requests==2.11.1
 urllib3==1.19
 simplejson==3.10.0
