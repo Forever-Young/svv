@@ -8,7 +8,7 @@ celery==4.0.2
 kombu==4.0.2
 pytz==2016.10
 django-celery==3.1.17
-django-haystack==2.5.1
+django-haystack==2.6.0
 elasticsearch==5.0.1
 python-dateutil==2.6.0
 requests==2.12.4
