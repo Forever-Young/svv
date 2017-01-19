@@ -12,7 +12,7 @@ django-haystack==2.6.0
 elasticsearch==5.1.0
 python-dateutil==2.6.0
 requests==2.12.5
-urllib3==1.19.1
+urllib3==1.20
 simplejson==3.10.0
 six==1.10.0
 sqlparse==0.2.2
