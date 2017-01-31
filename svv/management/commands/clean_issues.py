@@ -25,6 +25,11 @@ class Command(BaseCommand):
             dest='not_in_rss',
             default=False,
             help='Select issues, which are not in the RSS feed'),
+        make_option('--confirm',
+            action='store_true',
+            dest='confirm',
+            default=False,
+            help='Don\'t ask for confirmation'),
         )
 
     def handle(self, *args, **options):
@@ -52,8 +57,10 @@ class Command(BaseCommand):
             print('No suitable issues is found')
             return
 
-        print('Found {} issues, delete? (y/N)'.format(q.count()))
-        choice = input().lower()
-        if choice == 'y':
+        choice = None
+        if not options['confirm']:
+            print('Found {} issues, delete? (y/N)'.format(q.count()))
+            choice = input().lower()
+        if options['confirm'] or choice == 'y':
             for issue in q:
                 issue.delete_file()
