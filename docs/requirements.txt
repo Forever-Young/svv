@@ -11,7 +11,7 @@ django-celery==3.2.1
 django-haystack==2.6.1
 elasticsearch==5.4.0
 python-dateutil==2.6.0
-requests==2.17.3
+requests==2.18.1
 urllib3==1.21.1
 simplejson==3.10.0
 six==1.10.0
