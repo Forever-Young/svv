@@ -13,7 +13,7 @@ elasticsearch==5.4.0
 python-dateutil==2.6.0
 requests==2.18.1
 urllib3==1.21.1
-simplejson==3.10.0
+simplejson==3.11.0
 six==1.10.0
 sqlparse==0.2.3
 psycopg2==2.7.1
