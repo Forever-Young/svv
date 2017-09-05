@@ -1,4 +1,4 @@
-Django==1.11.4
+Django==1.11.5
 git+https://github.com/restless/django-bootstrap-pagination.git@95447579bbea0d2733809b2921e8b1cd83e02929
 django-bootstrap-form==3.3
 amqp==2.2.1
