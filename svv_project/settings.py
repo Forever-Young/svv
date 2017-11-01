@@ -181,7 +181,7 @@ ELASTICSEARCH_INDEX_SETTINGS = {
 ELASTICSEARCH_DEFAULT_ANALYZER = "my_analyzer"
 
 ISSUES_PER_PAGE = HAYSTACK_SEARCH_RESULTS_PER_PAGE = 6
-SPEEDUP = "+20"
+SPEEDUP = "0"
 YOUTUBE_URL = "https://www.youtube.com/user/SiliconValleyVoice/videos"
 TMP_DIR = os.path.join(BASE_DIR, "tmp")
 YOUTUBE_FORMAT = "18"

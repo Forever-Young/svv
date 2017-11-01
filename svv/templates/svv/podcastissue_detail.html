@@ -9,7 +9,7 @@
   <a href="{{ object.youtube_url }}" title="Ссылка на видео на Youtube" class="thumbnail-block">
     <img width="320" alt="Thumbnail" src="//i1.ytimg.com/vi/{{ object.youtube_id }}/mqdefault.jpg" />
     {% if object.length_video or object.length_audio %}
-      <span class="time-block">{% if object.length_video %}{{ object.video_length }}{% endif %}{% if object.length_audio %} ({{ object.audio_length }}){% endif %}</span>
+      <span class="time-block">{% if object.length_video %}{{ object.video_length }}{% endif %}</span>
     {% endif %}
   </a>
 
