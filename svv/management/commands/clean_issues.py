@@ -40,7 +40,7 @@ class Command(BaseCommand):
             raise CommandError('Please select one filter option')
 
         if options["not_in_rss"]:
-            q = PodcastIssue.objects.exclude(title__isnull=True).exclude(title__exact="").exclude(skip_feed=True) \
+            q = PodcastIssue.objects.exclude(title__isnull=True).exclude(title__exact="").exclude(skip_feed=False) \
                        .exclude(file__exact="").exclude(file__isnull=True)[20:]
         else:
             q = PodcastIssue.objects.filter(skip_feed__exact=True).exclude(file='')
