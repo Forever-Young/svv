@@ -1,7 +1,7 @@
 Django==2.0.5
 git+https://github.com/restless/django-bootstrap-pagination.git@95447579bbea0d2733809b2921e8b1cd83e02929
 django-bootstrap-form==3.4
-amqp==2.3.0
+amqp==2.3.1
 anyjson==0.3.3
 billiard==3.5.0.3
 celery==4.1.1
