@@ -9,7 +9,7 @@ kombu==4.2.1
 pytz==2018.4
 django-celery==3.2.2
 django-haystack==2.8.1
-elasticsearch==6.2.0
+elasticsearch==6.3.0
 python-dateutil==2.7.3
 requests==2.19.1
 urllib3==1.23
