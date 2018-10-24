@@ -6,7 +6,7 @@ anyjson==0.3.3
 billiard==3.5.0.4
 celery==4.2.1
 kombu==4.2.1
-pytz==2018.5
+pytz==2018.6
 django-celery==3.2.2
 django-haystack==2.8.1
 elasticsearch==6.3.1
