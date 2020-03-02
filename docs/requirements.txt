@@ -5,7 +5,7 @@ amqp==2.5.2
 anyjson==0.3.3
 billiard==3.6.3.0
 celery==4.4.0
-kombu==4.6.7
+kombu==4.6.8
 pytz==2019.3
 django-celery==3.3.1
 django-haystack==2.8.1
